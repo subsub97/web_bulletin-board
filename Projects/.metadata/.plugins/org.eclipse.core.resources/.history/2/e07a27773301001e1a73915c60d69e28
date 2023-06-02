@@ -1,0 +1,15 @@
+package bbs;
+
+
+class BbsFactory {
+    public static Bbs createBbs(String bbsTitle, String userID, String bbsContent) {
+        Bbs bbs = new Bbs();
+        bbs.setBbsTitle(bbsTitle);
+        bbs.setUserID(userID);
+        bbs.setBbsContent(bbsContent);
+        Date now = new Date();
+        bbs.setBbsDate(now.toString());
+        bbs.setBbsAvailable(1);
+        return bbs;
+    }
+}

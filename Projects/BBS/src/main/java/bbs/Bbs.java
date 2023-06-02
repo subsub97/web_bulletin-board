@@ -1,5 +1,5 @@
 package bbs;
-//beans class 생
+//게시글의 모델 클래스 
 public class Bbs {
 	
 	private int bbsID;

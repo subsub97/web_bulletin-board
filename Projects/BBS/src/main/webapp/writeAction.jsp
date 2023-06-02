@@ -28,9 +28,9 @@
 			script.println("</script>");
 		}else{
 			
-/* 			오류 해결을 위한 프린트내역 
-			System.out.println(bbs.getBbsTitle());
-			System.out.println(bbs.getBbsContent()); */
+ 			/* 오류 해결을 위한 프린트내역  */
+			/* System.out.println(bbs.getBbsTitle());
+			System.out.println(bbs.getBbsContent());  */
 			if(bbs.getBbsTitle() == null || bbs.getBbsContent() == null){
 						PrintWriter script = response.getWriter();
 						script.println("<script>");
@@ -41,7 +41,9 @@
 					}else{
 						BbsDAO bbsDAO = new BbsDAO();
 						int result = bbsDAO.write(bbs.getBbsTitle(), userID,bbs.getBbsContent());
+						System.out.println(); 
 						if (result == -1){
+							
 							PrintWriter script = response.getWriter();
 							script.println("<script>");
 							script.println("alert('글쓰기에 실패하였습니다.')");

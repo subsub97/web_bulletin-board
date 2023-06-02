@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+
+
 public class BbsDAO {
 
 	private Connection conn;
@@ -53,24 +55,29 @@ public class BbsDAO {
 	}
 	
 	// 글쓰기를 위한 함수 작성
-	public int write(String bbsTitle,String userID,String bbsContent) {
- 		String SQL = "INSERT INTO BBS VALUES (?, ?, ?, ?, ?, ?)"; //내림차순하여 가장 마지막에 쓰인 글의 번호를 가져오기 위함
- 		try {
- 			PreparedStatement pstmt = conn.prepareStatement(SQL);
- 			pstmt.setInt(1, getNext());
- 			pstmt.setString(2,bbsTitle);
- 			pstmt.setString(3,userID);
- 			pstmt.setString(4,getDate()); 
- 			pstmt.setString(5,bbsContent);
- 			pstmt.setInt(6,1);
- 			return pstmt.executeUpdate();
- 		} catch (Exception e) {
- 			e.printStackTrace();
- 		}
- 		return -1; // 데이터베이스 오류
+	public int write(String bbsTitle, String userID, String bbsContent) {
+	    String SQL = "INSERT INTO BBS VALUES (?, ?, ?, ?, ?, ?)";
+	    try {
+	        PreparedStatement pstmt = conn.prepareStatement(SQL);
+	        
+	        Bbs bbs = BbsFactory.createBbs(bbsTitle, userID, bbsContent,getNext());
+	        pstmt.setInt(1, bbs.getBbsID());
+	        pstmt.setString(2, bbs.getBbsTitle());
+	        pstmt.setString(3, bbs.getUserID());
+	        pstmt.setString(4, getDate());
+	        pstmt.setString(5, bbs.getBbsContent());
+	        pstmt.setInt(6, bbs.getBbsAvailable());
 
-		
+	        
+	        return pstmt.executeUpdate();
+	    }
+	    catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return -1;
 	}
+
+
 
 	public ArrayList<Bbs> getList(int pageNumber){
  		String SQL = "SELECT * FROM bbs WHERE bbsID < ? AND bbsAvailable = 1 ORDER BY bbsID DESC LIMIT 10"; //bbsID가 특정 수보다 작은경우에 select하고 최대 10개까지 가져온다.
