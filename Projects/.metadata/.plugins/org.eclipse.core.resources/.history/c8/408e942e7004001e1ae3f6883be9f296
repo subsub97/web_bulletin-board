@@ -1,0 +1,10 @@
+package bbs;
+
+public interface AlarmObserver {
+	
+	char[] name = null;
+
+	public void update(String message);
+	
+
+}

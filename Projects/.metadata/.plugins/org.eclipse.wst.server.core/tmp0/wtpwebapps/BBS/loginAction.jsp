@@ -29,14 +29,21 @@
 		}
 		UserDAO userDAO = new UserDAO();
 		int result = userDAO.login(user.getUserID(),user.getUserPassword());
+		
 		if (result == 1){
+			boolean alarm = userDAO.alarm(user.getUserID());
 			session.setAttribute("userID",user.getUserID());
 			PrintWriter script = response.getWriter();
+			if(alarm){
+				script.println("<script>");
+				script.println("alert('새로운 게시글이 있습니다.')");
+				script.println("</script>");
+			}
 			script.println("<script>");
 			script.println("location.href = 'main.jsp'");
-			//새창을 만들어서 이동하는 방법 script.println("window.open('main.jsp', '_blank')");
-
+			//새창을 만들어서 이동하는 방법 script.println("window.open('main.jsp', '_blank')");			
 			script.println("</script>");
+
 		}
 		else if(result == 0){
 			PrintWriter script = response.getWriter();

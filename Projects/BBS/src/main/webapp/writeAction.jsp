@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="bbs.BbsDAO" %>
+<%-- <%@ page import="bbs.*" %> --%>
 <%@ page import="java.io.PrintWriter" %>
+<%@ page import="java.sql.*" %>
 <% request.setCharacterEncoding("UTF-8"); %> 
 <jsp:useBean id="bbs" class="bbs.Bbs" scope="page"/>
 <jsp:setProperty name ="bbs" property ="bbsTitle"/>
@@ -52,6 +54,33 @@
 						}
 						
 						else{
+/* 					        AlarmSubject alarmSubject = new AlarmSubjectImpl();
+
+					        // MySQL 데이터베이스 연결
+					        try {
+					            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bbs", "root", "1234");
+					            Statement statement = connection.createStatement();
+
+					            // 알람 설정 변경 시 옵저버들에게 알림
+					            String query = "SELECT * FROM user WHERE alramCondition = 1";
+					            ResultSet resultSet = statement.executeQuery(query);
+					            while (resultSet.next()) {
+					                String username = resultSet.getString("username");
+					                AlarmObserver observer = new bbs.AlarmObserverImpl(username);
+					                alarmSubject.registerObserver(observer);
+					            }
+
+					            alarmSubject.notifyObservers("New alarm has been set!");
+
+					            resultSet.close();
+					            statement.close();
+					            connection.close();
+					        } catch (SQLException e) {
+					            e.printStackTrace();
+					        }
+							
+							 */
+							 
 							PrintWriter script = response.getWriter();
 							script.println("<script>");
 							script.println("location.href='bbs.jsp';");

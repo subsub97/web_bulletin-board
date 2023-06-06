@@ -1,0 +1,20 @@
+package bbs;
+
+public class AlarmObserverImpl implements AlarmObserver {
+    public String name;
+    
+    public AlarmObserverImpl(String name1) {
+    	
+        name = name1;
+    }
+
+    @Override
+    public void update(String message) {
+        System.out.println(name + " received alarm message: " + message);
+        // 알람에 대한 추가 동작을 수행할 수 있습니다.
+    }
+    
+    public String getUserID() {
+    	return this.name;
+    }
+}

@@ -1,6 +1,7 @@
 package bbs;
 
 import java.sql.Connection;
+import java.sql.Statement;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,17 +14,23 @@ public class BbsDAO {
 	private Connection conn;
 	private ResultSet rs;
 	
+	
+	AlarmSubject alarmSubject = new AlarmSubjectImpl();
 	public BbsDAO() {
+		
 		try {
 			String dbURL = "jdbc:mysql://localhost:3306/BBS";
 			String dbID = "root";
 			String dbPassword = "1234";
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(dbURL,dbID,dbPassword);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+
 	
 	public String getDate() {
  		String SQL = "SELECT NOW()"; //현재 시간을 가져오는 쿼리문
@@ -60,16 +67,30 @@ public class BbsDAO {
 	    try {
 	        PreparedStatement pstmt = conn.prepareStatement(SQL);
 	        
-	        Bbs bbs = BbsFactory.createBbs(bbsTitle, userID, bbsContent,getNext());
-	        pstmt.setInt(1, bbs.getBbsID());
-	        pstmt.setString(2, bbs.getBbsTitle());
-	        pstmt.setString(3, bbs.getUserID());
+	        BbsProxy bbsProxy = BbsFactory.createBbs(bbsTitle, userID, bbsContent,getNext());
+	        pstmt.setInt(1, bbsProxy.getBbsID());
+	        pstmt.setString(2, bbsProxy.getBbsTitle());
+	        pstmt.setString(3, bbsProxy.getUserID());
 	        pstmt.setString(4, getDate());
-	        pstmt.setString(5, bbs.getBbsContent());
-	        pstmt.setInt(6, bbs.getBbsAvailable());
+	        pstmt.setString(5, bbsProxy.getBbsContent());
+	        pstmt.setInt(6, bbsProxy.getBbsAvailable());
+	        int result = pstmt.executeUpdate();
+	        if(result >=1) {
+				Statement statement = conn.createStatement();
+			
+				String query = "SELECT * FROM user WHERE alramCondition = 1";
+				
+				rs = statement.executeQuery(query);
+				
+				
+				while (rs.next()) {
+					String username = rs.getString("userID");
+					AlarmObserver observer = new AlarmObserverImpl(username);
+					alarmSubject.registerObserver(observer);
+				}
 
-	        
-	        return pstmt.executeUpdate();
+	        	alarmSubject.notifyObservers("알람이 울립니다.");}
+	        return result;
 	    }
 	    catch (Exception e) {
 	        e.printStackTrace();
@@ -169,5 +190,34 @@ public class BbsDAO {
  		return -1; // 데이터베이스 오류
 		
 	}
+	
+	public int alarmOff(String userID) {
+		// available 상태를 보고 on/off를 한다.		
+ 		String SQL = "UPDATE user SET alramCondition = 0 WHERE userID = ?"; 
+ 		try {
+ 			PreparedStatement pstmt = conn.prepareStatement(SQL);
+ 			pstmt.setString(1,userID);
+ 			return pstmt.executeUpdate(); //성공한다면 0이상의 정수 값 반환
+ 		} catch (Exception e) {
+ 			e.printStackTrace();
+ 		}
+ 		return -1; // 데이터베이스 오류
+		
+	}
+	
+	public int alarmOn(String userID) {
+		// available 상태를 보고 on/off를 한다.		
+ 		String SQL = "UPDATE user SET alramCondition = 1 WHERE userID = ?"; 
+ 		try {
+ 			PreparedStatement pstmt = conn.prepareStatement(SQL);
+ 			pstmt.setString(1,userID);
+ 			return pstmt.executeUpdate(); //성공한다면 0이상의 정수 값 반환
+ 		} catch (Exception e) {
+ 			e.printStackTrace();
+ 		}
+ 		return -1; // 데이터베이스 오류
+		
+	}
+	
 
 }

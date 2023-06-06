@@ -2,6 +2,7 @@
 <%@ page import= "java.io.PrintWriter"  %>
 <%@ page import= "bbs.Bbs"  %>
 <%@ page import= "bbs.BbsDAO"  %>
+<%@ page import= "bbs.BbsProxy"  %>
 <!DOCTYPE html>   
 <html>
 <head>
@@ -32,6 +33,7 @@
 		if(request.getParameter("bbsID") != null){
 			bbsID = Integer.parseInt(request.getParameter("bbsID"));
 		}
+		
 		if(bbsID == 0){
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
@@ -40,9 +42,11 @@
 			script.println("</script>");
 			 
 		}
-		Bbs bbs = new BbsDAO().getBbs(bbsID);
+		
+		Bbs bbs = new BbsDAO().getBbs(bbsID); 
+		BbsProxy bbsProxy = new BbsProxy(bbs);
 		// 글 작성자와 현재 수정요청한 유저가 동일하지 않은 경우 
-		if(!userID.equals(bbs.getUserID())){
+		if(!bbsProxy.hasWritePermission(userID)){
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('수정 권한이 없습니다. ')");
@@ -50,6 +54,7 @@
 			script.println("</script>");
 		}
 	%>
+	
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"

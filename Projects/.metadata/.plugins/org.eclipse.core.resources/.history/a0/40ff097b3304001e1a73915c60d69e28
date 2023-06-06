@@ -1,0 +1,6 @@
+package bbs;
+
+public interface Alarmobserver {
+	void update(String message);
+
+}

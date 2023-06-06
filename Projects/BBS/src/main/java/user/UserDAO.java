@@ -45,7 +45,7 @@ public class UserDAO {
 
 
 public int join(User user) {
-	String SQL = "insert into user values (?,?,?,?,?)";
+	String SQL = "insert into user values (?,?,?,?,?,0,0)";
 	try {
 		pstmt = conn.prepareStatement(SQL);
 		pstmt.setString(1,user.getUserID());
@@ -58,5 +58,27 @@ public int join(User user) {
 		e.printStackTrace();
 	}
 	return -1;
+	}
+
+public boolean alarm(String userID) {
+
+	String SQL = "SELECT alarmPoint FROM user WHERE userId = ?";
+	String SQL2 = "UPDATE user SET alarmPoint = 0 WHERE alarmPoint = 1 and userID = ?";
+	try {
+		pstmt = conn.prepareStatement(SQL);
+		PreparedStatement pstmt2 = conn.prepareStatement(SQL2);
+		pstmt2 = conn.prepareStatement(SQL2);
+		pstmt.setString(1,userID);
+		pstmt2.setString(1,userID);
+		rs = pstmt.executeQuery();
+
+		pstmt2.executeUpdate();
+		boolean hasResult = rs.next();
+
+		return  hasResult; //업데이트된 행의 수를 반환하는 메서드
+	} catch(Exception e) {
+		e.printStackTrace();
+	}
+	return false;
 	}
 }

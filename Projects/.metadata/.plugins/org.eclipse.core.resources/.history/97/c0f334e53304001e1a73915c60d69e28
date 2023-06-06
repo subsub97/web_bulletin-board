@@ -1,0 +1,26 @@
+package bbs;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class AlarmSubjectImpl implements AlarmSubject{
+	private List<AlarmObserver> observers = new ArrayList<>();
+
+    @Override
+    public void registerObserver(AlarmObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(AlarmObserver observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers(String message) {
+        for (AlarmObserver observer : observers) {
+            observer.update(message);
+        }
+    }
+
+}

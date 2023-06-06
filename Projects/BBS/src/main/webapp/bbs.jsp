@@ -94,7 +94,9 @@
 				</thead>
 				<tbody>
 				<%
+					
 					BbsDAO bbsDAO = new BbsDAO();
+
 					ArrayList<Bbs> list = bbsDAO.getList(pageNumber);
 
 					for (int i = 0; i < list.size(); i++){
@@ -125,6 +127,8 @@
 			%>	
 			<% if(userID != null){
 			%>
+			<a href ="alarmOnAction.jsp" class="btn btn-primary pull-left">알림 켜기</a>
+			<a href ="alarmOffAction.jsp" class="btn btn-primary pull-left">알림 끄기</a>
 			<a href ="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
 			<%	
 			}

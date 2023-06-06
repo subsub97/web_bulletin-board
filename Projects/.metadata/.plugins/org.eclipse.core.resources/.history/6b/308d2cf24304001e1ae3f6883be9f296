@@ -1,0 +1,52 @@
+package bbs;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import java.sql.Statement;
+
+public class practice {
+	public static void main(String[] args) {
+        // 알람 주제 객체 생성
+        AlarmSubject alarmSubject = new AlarmSubjectImpl();
+
+        // MySQL 데이터베이스 연결
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bbs", "root", "1234");
+            Statement statement = connection.createStatement();
+
+            // 알람 설정 변경 시 옵저버들에게 알림
+            String query = "SELECT * FROM user WHERE alramCondition = 1";
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                String username = resultSet.getString("username");
+                AlarmObserver observer = new AlarmObserverImpl(username);
+                alarmSubject.registerObserver(observer);
+            }
+
+            alarmSubject.notifyObservers("New alarm has been set!");
+
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+//if(pstmt.executeUpdate() > 1) {
+//	Statement statement = conn.createStatement();
+//	
+//	String query = "SELECT * FROM user WHERE alramCondition = 1";
+//	rs = statement.executeQuery(query);
+//	
+//	
+//	while (rs.next()) {
+//		String username = rs.getString("userID");
+//		System.out.println(username);
+//		AlarmObserver observer = new AlarmObserverImpl(username);
+//		alarmSubject.registerObserver(observer);
+//	}
+//	alarmSubject.notifyObservers("New alarm has been set");
+//}

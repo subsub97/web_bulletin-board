@@ -1,0 +1,10 @@
+package bbs;
+
+public interface AlarmSubject {
+	void registerObserver(AlarmObserver observer);
+	void removeObserver(AlarmObserver observer);
+	void notifyObservers(String message);
+}
+
+
+ 

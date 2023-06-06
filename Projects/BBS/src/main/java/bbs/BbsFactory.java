@@ -9,7 +9,7 @@ import java.util.Date;
 
 
 class BbsFactory {
-    public static Bbs createBbs(String bbsTitle, String userID, String bbsContent,int bbsID) {
+    public static BbsProxy createBbs(String bbsTitle, String userID, String bbsContent,int bbsID) {
         Bbs bbs = new Bbs();
         bbs.setBbsID(bbsID);
         bbs.setBbsTitle(bbsTitle);
@@ -18,6 +18,7 @@ class BbsFactory {
         Date now = new Date();
         bbs.setBbsDate(now.toString());
         bbs.setBbsAvailable(1);
-        return bbs;
+        BbsProxy bbsProxy = new BbsProxy(bbs);
+        return bbsProxy;
     }
 }
