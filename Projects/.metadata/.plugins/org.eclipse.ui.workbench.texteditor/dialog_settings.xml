@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="alram"/>
+		<item key="selection" value="user"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="alram"/>
-			<item value="alarm"/>
-			<item value="join"/>
-			<item value="게시판"/>
-			<item value="게시글"/>
-			<item value="수정"/>
-			<item value="수전"/>
-			<item value="getDate"/>
-			<item value="getDa"/>
-			<item value="BbsID"/>
-			<item value="id"/>
-			<item value="ㅑㅇ"/>
+			<item value="user"/>
+			<item value="println"/>
+			<item value="print"/>
 			<item value="write"/>
-			<item value="0"/>
-			<item value="main"/>
+			<item value="bbs"/>
+			<item value="AlarmObserverImpl"/>
+			<item value="AlarmObserverImp"/>
+			<item value="AlarmObserverIm"/>
+			<item value="AlarmObserverI"/>
+			<item value="AlarmObserver"/>
+			<item value="AlarmObser"/>
+			<item value="AlarmOb"/>
+			<item value="AlarmO"/>
+			<item value="Alarm"/>
+			<item value="Al"/>
 		</list>
 		<list key="replacehistory">
 		</list>

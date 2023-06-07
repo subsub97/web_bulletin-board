@@ -62,7 +62,7 @@ public int join(User user) {
 
 public boolean alarm(String userID) {
 	System.out.println(userID);
-	String SQL = "SELECT alarmPoint FROM user WHERE userId = ? and alarmPoint = 1";
+	String SQL = "SELECT alarmPoint FROM user WHERE userId = ?";
 	String SQL2 = "UPDATE user SET alarmPoint = 0 WHERE alarmPoint = 1 and userID = ?";
 	try {
 		pstmt = conn.prepareStatement(SQL);
@@ -74,7 +74,6 @@ public boolean alarm(String userID) {
 
 		pstmt2.executeUpdate();
 		boolean hasResult = rs.next();
-		System.out.println(hasResult);
 
 		return  hasResult; //업데이트된 행의 수를 반환하는 메서드
 	} catch(Exception e) {
